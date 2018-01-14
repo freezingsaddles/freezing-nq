@@ -1,7 +1,8 @@
 # BUILD
 # =====
 
-FROM ubuntu:trusty as buildstep
+FROM ubuntu:xenial as buildstep
+LABEL maintainer="Hans Lellelid <hans@xmpl.org>"
 
 COPY resources/docker/sources.list /etc/apt/sources.list
 RUN apt-get update
@@ -23,7 +24,8 @@ RUN pip3 wheel -r /tmp/requirements.txt --wheel-dir=/build/wheels
 # DEPLOY
 # =====
 
-FROM ubuntu:trusty as deploystep
+FROM ubuntu:xenial as deploystep
+LABEL maintainer="Hans Lellelid <hans@xmpl.org>"
 
 COPY resources/docker/sources.list /etc/apt/sources.list
 

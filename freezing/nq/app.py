@@ -2,16 +2,20 @@ from wsgiref import simple_server
 
 import falcon
 
+from freezing.nq.api.health import HealthResource
 from freezing.nq.api.webhook import WebhookResource
 from freezing.nq.middleware import RequireJSON
 
 
 def make_app() -> falcon.API:
-    # Configure your WSGI server to load "things.app" (app is a WSGI callable)
+    """
+    Builds the WSGI application we'll be serving.
+    """
     app = falcon.API(middleware=[
         RequireJSON(),
     ])
 
+    app.add_route('/health', HealthResource())
     app.add_route('/webhook', WebhookResource())
 
     return app

@@ -1,16 +1,17 @@
 import logging
 from envparse import Env
 
+# Is this really adding any value?
 env = Env(
     DEBUG=bool,
     STRAVA_VERIFY_TOKEN=str,
-    BEANSTALK_SERVER=str,
+    BEANSTALKD_SERVER=str,
 )
 
 class Config:
     debug = env('DEBUG', default=False)  # type: bool
     strava_verify_token = env('STRAVA_VERIFY_TOKEN', default='STRAVA')
-    beanstalk_server = env('BEANSTALK_SERVER', default='beanstalk.container')
+    beanstalkd_server = env('BEANSTALKD_SERVER', default='beanstalkd.container')
 
 config = Config()
 
