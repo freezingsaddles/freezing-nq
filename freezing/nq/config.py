@@ -1,18 +1,19 @@
 import logging
-from envparse import env
+from envparse import Env
 
-# Is this really adding any value?
-# env = Env(
-#     DEBUG=bool,
-#     STRAVA_VERIFY_TOKEN=str,
-#     BEANSTALKD_HOST=str,
-# )
+env = Env(
+    DEBUG=dict(cast=bool, default=False),
+    STRAVA_VERIFY_TOKEN=dict(cast=str, default='STRAVA'),
+    BEANSTALKD_HOST=dict(cast=str, default='beanstalkd.container'),
+    BEANSTALKD_PORT=dict(cast=int, default=11300)
+)
+
 
 class Config:
-    debug = env('DEBUG', default=False)  # type: bool
-    strava_verify_token = env('STRAVA_VERIFY_TOKEN', default='STRAVA')
-    beanstalkd_host = env('BEANSTALKD_HOST', default='beanstalkd.container')
-    beanstalkd_port = env('BEANSTALKD_PORT', cast=int, default=11300)
+    debug = env('DEBUG')  # type: bool
+    strava_verify_token = env('STRAVA_VERIFY_TOKEN')
+    beanstalkd_host = env('BEANSTALKD_HOST')
+    beanstalkd_port = env('BEANSTALKD_PORT')
 
 config = Config()
 
