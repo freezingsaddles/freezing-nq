@@ -1,14 +1,18 @@
+import json
 import falcon
 
 from freezing.nq.autolog import log
 from freezing.nq.config import config
-from freezing.nq.publish import ActivityPublisher, Destinations
-from stravalib import Client
+from freezing.nq.publish import ActivityPublisher
+
+from freezing.model.msg.strava import SubscriptionUpdate, SubscriptionUpdateSchema, SubscriptionCallbackSchema, \
+    SubscriptionCallback, ObjectType
+from freezing.model.msg.mq import DefinedTubes, ActivityUpdate, ActivityUpdateSchema
 
 
 class WebhookResource:
 
-    def __init__(self, publisher:ActivityPublisher):
+    def __init__(self, publisher: ActivityPublisher):
         self.publisher = publisher
 
     def on_get(self, req: falcon.Request, resp: falcon.Response):
@@ -17,14 +21,15 @@ class WebhookResource:
 
         See: http://strava.github.io/api/partner/v3/events/
         """
-        client = Client()
 
         strava_request = {k: req.get_param(k) for k in ('hub.challenge', 'hub.mode', 'hub.verify_token')}
 
-        challenge_response = client.handle_subscription_callback(strava_request,
-                                                                 verify_token=config.strava_verify_token)
+        schema = SubscriptionCallbackSchema(strict=True)
+        callback: SubscriptionCallback = schema.load(strava_request).data
+        assert config.strava_verify_token == callback.hub_verify_token
 
-        resp.media = challenge_response
+        resp.status = falcon.HTTP_200
+        resp.body = json.dumps({'hub.challenge': callback.hub_challenge})
 
     def on_post(self, req: falcon.Request, resp: falcon.Response):
         """
@@ -43,14 +48,23 @@ class WebhookResource:
 
         See: http://strava.github.io/api/partner/v3/events/
         """
-        client = Client()
-        result = client.handle_subscription_update(req.media)
+
+        schema = SubscriptionUpdateSchema(strict=True)
+        result: SubscriptionUpdate = schema.load(req.media).data
 
         # We only care about activities
-        if result.object_type != 'activity':
+        if result.object_type is not ObjectType.activity:
             log.info("Ignoring non-activity webhook: {}".format(req.media))
         else:
-            dest = Destinations.activity_created if result.aspect_type == 'create' else Destinations.activity_updated
-            message = result.to_dict()
-            log.info("Publishing activity webhook: {}".format(message))
-            self.publisher.publish_message(message, dest=dest)
+            message = ActivityUpdate()
+            message.athlete_id = result.owner_id
+            message.event_time = result.event_time
+            message.activity_id = result.object_id
+            message.operation = result.aspect_type
+            message.updates = result.updates
+
+            json_data = ActivityUpdateSchema().dump(message).data
+
+            log.info("Publishing activity-update: {}".format(message))
+            self.publisher.publish_message(json_data,
+                                           dest=DefinedTubes.activity_update)

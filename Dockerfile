@@ -21,6 +21,12 @@ RUN pip3 install --upgrade pip setuptools wheel
 ADD requirements.txt /tmp/requirements.txt
 RUN pip3 wheel -r /tmp/requirements.txt --wheel-dir=/build/wheels
 
+ADD . /app
+WORKDIR /app
+
+RUN python3.6 setup.py bdist_wheel -d /build/wheels
+
+
 # DEPLOY
 # =====
 
@@ -39,20 +45,9 @@ RUN apt-get update \
   && pip3 install --upgrade pip setuptools wheel \
   && rm -rf /var/lib/apt/lists/*
 
-## I don't think we need any persistence for this app.
-# RUN mkdir -p /data
-#
-# VOLUME /data
-
-# Place app source in container.
-COPY . /app
-WORKDIR /app
-
 COPY --from=buildstep /build/wheels /tmp/wheels
 
 RUN pip3 install /tmp/wheels/*
-
-RUN python3.6 setup.py install
 
 EXPOSE 8000
 

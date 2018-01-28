@@ -1,18 +1,11 @@
-import enum
 import json
 from typing import Any
 
-from contextlib import closing
-
 import greenstalk
+from freezing.model.msg.mq import DefinedTubes
 
 from freezing.nq.config import config
 from freezing.nq.autolog import log
-
-
-class Destinations(enum.Enum):
-    activity_created = 'new-activities'
-    activity_updated = 'updated-activities'
 
 
 class ActivityPublisher:
@@ -32,7 +25,7 @@ class ActivityPublisher:
         else:
             return json.dumps(message)
 
-    def publish_message(self, message:Any, dest:Destinations):
+    def publish_message(self, message:Any, dest: DefinedTubes):
         """
         Publish the json-serializable message object (e.g. dict) to configured destination (e.g. queue, tube).
 

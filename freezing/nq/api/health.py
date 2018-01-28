@@ -1,9 +1,5 @@
 import falcon
 
-from stravalib import Client
-from freezing.nq.config import config
-from freezing.nq.autolog import log
-
 
 class HealthResource:
 

@@ -1,22 +1,22 @@
+import os
 import logging
-from envparse import Env
+from envparse import env
 
-env = Env(
-    DEBUG=dict(cast=bool, default=False),
-    STRAVA_VERIFY_TOKEN=dict(cast=str, default='STRAVA'),
-    BEANSTALKD_HOST=dict(cast=str, default='beanstalkd.container'),
-    BEANSTALKD_PORT=dict(cast=int, default=11300)
-)
+envfile = os.environ.get('APP_SETTINGS', os.path.join(os.getcwd(), '.env'))
+
+if os.path.exists(envfile):
+    env.read_envfile(envfile)
 
 
 class Config:
-    debug = env('DEBUG')  # type: bool
-    strava_verify_token = env('STRAVA_VERIFY_TOKEN')
-    beanstalkd_host = env('BEANSTALKD_HOST')
-    beanstalkd_port = env('BEANSTALKD_PORT')
+    DEBUG: bool = env('DEBUG', default=False)
+    STRAVA_VERIFY_TOKEN: str = env('STRAVA_VERIFY_TOKEN', default='STRAVA')
+    BEANSTALKD_HOST: str = env('BEANSTALKD_HOST', default='127.0.0.1')
+    BEANSTALKD_PORT: int = env('BEANSTALKD_PORT', cast=int, default=11300)
+
 
 config = Config()
 
 
 def init_logging():
-    logging.basicConfig(level=logging.DEBUG if config.debug else logging.INFO)
+    logging.basicConfig(level=logging.DEBUG if config.DEBUG else logging.INFO)
