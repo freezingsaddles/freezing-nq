@@ -41,4 +41,4 @@ class ActivityPublisher:
 
 
 def configured_publisher() -> ActivityPublisher:
-    return ActivityPublisher(host=config.beanstalkd_host, port=config.beanstalkd_port)
+    return ActivityPublisher(host=config.BEANSTALKD_HOST, port=config.BEANSTALKD_PORT)

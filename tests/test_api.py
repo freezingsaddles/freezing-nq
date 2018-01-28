@@ -13,7 +13,7 @@ from freezing.model.msg.mq import DefinedTubes, ActivityUpdate
 
 def test_get_webhook(client):
 
-    d = {'hub.challenge': 'asdf', 'hub.mode': 'mode', 'hub.verify_token': config.strava_verify_token}
+    d = {'hub.challenge': 'asdf', 'hub.mode': 'mode', 'hub.verify_token': config.STRAVA_VERIFY_TOKEN}
 
     result = client.simulate_get('/webhook', params=d)
     print(result)

@@ -26,7 +26,7 @@ class WebhookResource:
 
         schema = SubscriptionCallbackSchema(strict=True)
         callback: SubscriptionCallback = schema.load(strava_request).data
-        assert config.strava_verify_token == callback.hub_verify_token
+        assert config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token
 
         resp.status = falcon.HTTP_200
         resp.body = json.dumps({'hub.challenge': callback.hub_challenge})
