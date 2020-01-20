@@ -2,13 +2,13 @@
 # =====
 
 FROM ubuntu:xenial as buildstep
-LABEL maintainer="Hans Lellelid <hans@xmpl.org>"
+LABEL maintainer="Richard Bullington-McGuire <richard@obscure.org>"
 
 COPY resources/docker/sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y software-properties-common
-RUN add-apt-repository -y ppa:jonathonf/python-3.6
+RUN add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt-get update
 
 RUN apt-get install -y python3.6 python3.6-dev curl build-essential git
@@ -31,7 +31,7 @@ RUN python3.6 setup.py bdist_wheel -d /build/wheels
 # =====
 
 FROM ubuntu:xenial as deploystep
-LABEL maintainer="Hans Lellelid <hans@xmpl.org>"
+LABEL maintainer="Richard Bullington-McGuire <richard@obscure.org>"
 
 COPY resources/docker/sources.list /etc/apt/sources.list
 
