@@ -3,43 +3,42 @@ import os.path
 import re
 import warnings
 
-# Ugh, pip 10 is backward incompatible, but there is a workaround:
-# Thanks Stack Overflow https://stackoverflow.com/a/49867265
-try: # for pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
-    from pip.req import parse_requirements
-from setuptools import setup, find_packages
+from setuptools import setup
 
-version = '0.2.0'
+version = "0.3.0"
 
 long_description = """
-freezing-nq is the freezing saddles component for receiving strava webhook events and enquing them for processing.
+freezing-nq is the Freezing Saddles component for receiving
+strava webhook events and enquing them for processing.
 """
 
-# parse_requirements() returns generator of pip.req.InstallRequirement objects
-install_reqs = parse_requirements(os.path.join(os.path.dirname(__file__), 'requirements.txt'), session=False)
-
-# reqs is a list of requirement
-# e.g. ['django==1.5.1', 'mezzanine==1.4.6']
-reqs = [str(ir.req) for ir in install_reqs]
+install_reqs = [
+    "envparse==0.2.0",
+    "falcon==2.0.0",
+    "greenstalk==1.0.1",
+    "gunicorn==20.0.4",
+    "python-mimeparse==1.6.0",
+    "six==1.14.0",
+    "freezing-model",
+    "arrow==0.15.5",
+]
 
 setup(
-    name='freezing-nq',
+    name="freezing-nq",
     version=version,
-    author='Hans Lellelid',
-    author_email='hans@xmpl.org',
-    url='http://github.com/freezingsaddles/freezing-nq',
-    license='Apache',
-    description='Freezing Saddles activity receive and enqueue worker',
+    author="Hans Lellelid",
+    author_email="hans@xmpl.org",
+    url="http://github.com/freezingsaddles/freezing-nq",
+    license="Apache",
+    description="Freezing Saddles activity receive and enqueue worker",
     long_description=long_description,
-    packages=['freezing.nq', 'freezing.nq.api'],
-    install_requires=reqs,
+    packages=["freezing.nq", "freezing.nq.api"],
+    install_requires=install_reqs,
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: Apache Software License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3',
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
     ],
-    zip_safe=True
+    zip_safe=True,
 )

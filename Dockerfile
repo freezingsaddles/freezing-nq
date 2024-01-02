@@ -1,20 +1,17 @@
 # BUILD
 # =====
 
-FROM ubuntu:xenial as buildstep
+FROM ubuntu:22.04 as buildstep
 LABEL maintainer="Richard Bullington-McGuire <richard@obscure.org>"
 
-COPY resources/docker/sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y software-properties-common
-RUN add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt-get update
 
-RUN apt-get install -y python3.6 python3.6-dev curl build-essential git
+RUN apt-get install -y python3 python3-dev python3-pip curl build-essential git
 
 RUN mkdir -p /build/wheels
-RUN curl https://bootstrap.pypa.io/get-pip.py | python3.6
 
 RUN pip3 install --upgrade pip setuptools wheel
 
@@ -24,24 +21,20 @@ RUN pip3 wheel -r /tmp/requirements.txt --wheel-dir=/build/wheels
 ADD . /app
 WORKDIR /app
 
-RUN python3.6 setup.py bdist_wheel -d /build/wheels
+RUN python3 setup.py bdist_wheel -d /build/wheels
 
 
 # DEPLOY
 # =====
 
-FROM ubuntu:xenial as deploystep
+FROM ubuntu:22.04 as deploystep
 LABEL maintainer="Richard Bullington-McGuire <richard@obscure.org>"
-
-COPY resources/docker/sources.list /etc/apt/sources.list
 
 RUN apt-get update \
   && apt-get install -y software-properties-common curl \
-  && add-apt-repository -y ppa:jonathonf/python-3.6 \
   && apt-get update \
-  && apt-get install -y python3.6 vim-tiny --no-install-recommends \
+  && apt-get install -y python3 python3-pip vim-tiny --no-install-recommends \
   && apt-get clean \
-  && curl https://bootstrap.pypa.io/get-pip.py | python3.6 \
   && pip3 install --upgrade pip setuptools wheel \
   && rm -rf /var/lib/apt/lists/*
 
