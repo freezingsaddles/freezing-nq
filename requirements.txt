@@ -1,3 +1,4 @@
+GeoAlchemy @ https://github.com/hozn/GeoAlchemy/archive/0.7.3dev1.tar.gz
 arrow==0.15.5
 envparse==0.2.0
 falcon==2.0.0
