@@ -24,7 +24,7 @@ class WebhookResource:
 
         strava_request = {k: req.get_param(k) for k in ('hub.challenge', 'hub.mode', 'hub.verify_token')}
 
-        schema = SubscriptionCallbackSchema(strict=True)
+        schema = SubscriptionCallbackSchema()
         callback: SubscriptionCallback = schema.load(strava_request).data
         assert config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token
 
@@ -49,7 +49,7 @@ class WebhookResource:
         See: http://strava.github.io/api/partner/v3/events/
         """
 
-        schema = SubscriptionUpdateSchema(strict=True)
+        schema = SubscriptionUpdateSchema()
         result: SubscriptionUpdate = schema.load(req.media).data
 
         # We only care about activities
