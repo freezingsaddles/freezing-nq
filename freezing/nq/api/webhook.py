@@ -50,7 +50,7 @@ class WebhookResource:
         """
 
         schema = SubscriptionUpdateSchema()
-        result: SubscriptionUpdate = schema.load(req.media).data
+        result: SubscriptionUpdate = schema.load(req.media)
 
         # We only care about activities
         if result.object_type is not ObjectType.activity:
@@ -63,7 +63,7 @@ class WebhookResource:
             message.operation = result.aspect_type
             message.updates = result.updates
 
-            json_data = ActivityUpdateSchema().dump(message).data
+            json_data = ActivityUpdateSchema().dump(message)
 
             log.info("Publishing activity-update: {}".format(message))
             self.publisher.publish_message(json_data,

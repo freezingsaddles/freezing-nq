@@ -5,7 +5,7 @@ import warnings
 
 from setuptools import setup
 
-version = "0.3.4"
+version = "0.3.6"
 
 long_description = """
 freezing-nq is the Freezing Saddles component for receiving
