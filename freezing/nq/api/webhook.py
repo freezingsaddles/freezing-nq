@@ -24,7 +24,7 @@ class WebhookResource:
 
         strava_request = {k: req.get_param(k) for k in ('hub.challenge', 'hub.mode', 'hub.verify_token')}
 
-        schema = SubscriptionCallbackSchema(strict=True)
+        schema = SubscriptionCallbackSchema()
         callback: SubscriptionCallback = schema.load(strava_request).data
         assert config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token
 
@@ -49,8 +49,8 @@ class WebhookResource:
         See: http://strava.github.io/api/partner/v3/events/
         """
 
-        schema = SubscriptionUpdateSchema(strict=True)
-        result: SubscriptionUpdate = schema.load(req.media).data
+        schema = SubscriptionUpdateSchema()
+        result: SubscriptionUpdate = schema.load(req.media)
 
         # We only care about activities
         if result.object_type is not ObjectType.activity:
@@ -63,7 +63,7 @@ class WebhookResource:
             message.operation = result.aspect_type
             message.updates = result.updates
 
-            json_data = ActivityUpdateSchema().dump(message).data
+            json_data = ActivityUpdateSchema().dump(message)
 
             log.info("Publishing activity-update: {}".format(message))
             self.publisher.publish_message(json_data,
