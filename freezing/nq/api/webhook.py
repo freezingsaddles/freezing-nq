@@ -5,13 +5,17 @@ from freezing.nq.autolog import log
 from freezing.nq.config import config
 from freezing.nq.publish import ActivityPublisher
 
-from freezing.model.msg.strava import SubscriptionUpdate, SubscriptionUpdateSchema, SubscriptionCallbackSchema, \
-    SubscriptionCallback, ObjectType
+from freezing.model.msg.strava import (
+    SubscriptionUpdate,
+    SubscriptionUpdateSchema,
+    SubscriptionCallbackSchema,
+    SubscriptionCallback,
+    ObjectType,
+)
 from freezing.model.msg.mq import DefinedTubes, ActivityUpdate, ActivityUpdateSchema
 
 
 class WebhookResource:
-
     def __init__(self, publisher: ActivityPublisher):
         self.publisher = publisher
 
@@ -22,14 +26,17 @@ class WebhookResource:
         See: http://strava.github.io/api/partner/v3/events/
         """
 
-        strava_request = {k: req.get_param(k) for k in ('hub.challenge', 'hub.mode', 'hub.verify_token')}
+        strava_request = {
+            k: req.get_param(k)
+            for k in ("hub.challenge", "hub.mode", "hub.verify_token")
+        }
 
         schema = SubscriptionCallbackSchema()
         callback: SubscriptionCallback = schema.load(strava_request).data
         assert config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token
 
         resp.status = falcon.HTTP_200
-        resp.body = json.dumps({'hub.challenge': callback.hub_challenge})
+        resp.body = json.dumps({"hub.challenge": callback.hub_challenge})
 
     def on_post(self, req: falcon.Request, resp: falcon.Response):
         """
@@ -66,5 +73,4 @@ class WebhookResource:
             json_data = ActivityUpdateSchema().dump(message)
 
             log.info("Publishing activity-update: {}".format(message))
-            self.publisher.publish_message(json_data,
-                                           dest=DefinedTubes.activity_update)
+            self.publisher.publish_message(json_data, dest=DefinedTubes.activity_update)

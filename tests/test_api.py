@@ -12,54 +12,57 @@ from freezing.model.msg.mq import DefinedTubes, ActivityUpdate
 
 
 def test_get_webhook(client):
+    d = {
+        "hub.challenge": "asdf",
+        "hub.mode": "mode",
+        "hub.verify_token": config.STRAVA_VERIFY_TOKEN,
+    }
 
-    d = {'hub.challenge': 'asdf', 'hub.mode': 'mode', 'hub.verify_token': config.STRAVA_VERIFY_TOKEN}
-
-    result = client.simulate_get('/webhook', params=d)
+    result = client.simulate_get("/webhook", params=d)
     print(result)
-    assert result.json == {'hub.challenge': 'asdf'}
+    assert result.json == {"hub.challenge": "asdf"}
 
 
 def test_get_webhook_bad_token(client):
-
-    d = {'hub.challenge': 'asdf', 'hub.mode': 'mode', 'hub.verify_token': 'wrong'}
+    d = {"hub.challenge": "asdf", "hub.mode": "mode", "hub.verify_token": "wrong"}
 
     with pytest.raises(AssertionError):
-        result = client.simulate_get('/webhook', params=d)
+        result = client.simulate_get("/webhook", params=d)
 
 
-def test_post_webhook(client, publisher:ActivityPublisher):
-
+def test_post_webhook(client, publisher: ActivityPublisher):
     d = dict(
         subscription_id=111,
         owner_id=222,
-        object_type='activity',
+        object_type="activity",
         object_id=999,
-        aspect_type='update',
-        updates={'title': 'Hello world.'},
+        aspect_type="update",
+        updates={"title": "Hello world."},
         event_time=1358919359,
     )
 
-    result = client.simulate_post('/webhook', body=json.dumps(d), headers={'content-type': 'application/json'}
-
+    result = client.simulate_post(
+        "/webhook", body=json.dumps(d), headers={"content-type": "application/json"}
     )
 
-    message =  ActivityUpdate()
-    message.athlete_id = d['owner_id']
-    message.event_time = arrow.get(d['event_time']).datetime
-    message.activity_id = d['object_id']
-    message.operation = AspectType(d['aspect_type'])
-    message.updates = d['updates']
+    message = ActivityUpdate()
+    message.athlete_id = d["owner_id"]
+    message.event_time = arrow.get(d["event_time"]).datetime
+    message.activity_id = d["object_id"]
+    message.operation = AspectType(d["aspect_type"])
+    message.updates = d["updates"]
 
     called_with = dict(
-        activity_id=d['object_id'],
-        athlete_id=d['owner_id'],
-        operation=d['aspect_type'],
-        event_time='2013-01-23T05:35:59+00:00',
-        updates=d['updates']
+        activity_id=d["object_id"],
+        athlete_id=d["owner_id"],
+        operation=d["aspect_type"],
+        event_time="2013-01-23T05:35:59+00:00",
+        updates=d["updates"],
     )
 
-    publisher.publish_message.assert_called_with(called_with, dest=DefinedTubes.activity_update)
+    publisher.publish_message.assert_called_with(
+        called_with, dest=DefinedTubes.activity_update
+    )
 
 
 # def test_post_webhook_noop(client, publisher:ActivityPublisher):

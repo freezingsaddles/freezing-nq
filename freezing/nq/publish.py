@@ -15,7 +15,7 @@ class ActivityPublisher:
     (Currently uses beanstalkd, but that may change.  May also switch to using threads & queues to speed up.)
     """
 
-    def __init__(self, host:str, port:int):
+    def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
 
@@ -25,7 +25,7 @@ class ActivityPublisher:
         else:
             return json.dumps(message)
 
-    def publish_message(self, message:Any, dest: DefinedTubes):
+    def publish_message(self, message: Any, dest: DefinedTubes):
         """
         Publish the json-serializable message object (e.g. dict) to configured destination (e.g. queue, tube).
 
