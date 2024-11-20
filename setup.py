@@ -16,7 +16,7 @@ install_reqs = [
     "envparse==0.2.0",
     "falcon==2.0.0",
     "greenstalk==1.0.1",
-    "gunicorn==20.0.4",
+    "gunicorn==22.0.0",
     "python-mimeparse==1.6.0",
     "six==1.14.0",
     "freezing-model",
