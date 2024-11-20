@@ -4,8 +4,8 @@ from typing import Any
 import greenstalk
 from freezing.model.msg.mq import DefinedTubes
 
-from freezing.nq.config import config
 from freezing.nq.autolog import log
+from freezing.nq.config import config
 
 
 class ActivityPublisher:
@@ -34,8 +34,8 @@ class ActivityPublisher:
         queue = greenstalk.Client(host=self.host, port=self.port, use=dest.value)
         try:
             queue.put(self.serialize_message(message))
-        except:
-            log.exception("Error publishing message.")
+        except Exception as ex:
+            log.exception(f"Error publishing message: {ex}")
         finally:
             queue.close()
 

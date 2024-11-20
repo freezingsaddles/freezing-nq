@@ -4,7 +4,7 @@ import falcon
 
 from freezing.nq.api.health import HealthResource
 from freezing.nq.api.webhook import WebhookResource
-from freezing.nq.publish import configured_publisher, ActivityPublisher
+from freezing.nq.publish import ActivityPublisher, configured_publisher
 
 
 class RequireJSON:
