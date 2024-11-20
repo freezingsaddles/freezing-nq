@@ -1,18 +1,18 @@
 import json
+
 import falcon
+from freezing.model.msg.mq import ActivityUpdate, ActivityUpdateSchema, DefinedTubes
+from freezing.model.msg.strava import (
+    ObjectType,
+    SubscriptionCallback,
+    SubscriptionCallbackSchema,
+    SubscriptionUpdate,
+    SubscriptionUpdateSchema,
+)
 
 from freezing.nq.autolog import log
 from freezing.nq.config import config
 from freezing.nq.publish import ActivityPublisher
-
-from freezing.model.msg.strava import (
-    SubscriptionUpdate,
-    SubscriptionUpdateSchema,
-    SubscriptionCallbackSchema,
-    SubscriptionCallback,
-    ObjectType,
-)
-from freezing.model.msg.mq import DefinedTubes, ActivityUpdate, ActivityUpdateSchema
 
 
 class WebhookResource:

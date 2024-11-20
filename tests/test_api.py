@@ -1,14 +1,13 @@
-import json
 import copy
+import json
 
-import pytest
 import arrow
-
+import pytest
+from freezing.model.msg.mq import ActivityUpdate, DefinedTubes
 from freezing.model.msg.strava import AspectType
 
 from freezing.nq.config import config
 from freezing.nq.publish import ActivityPublisher
-from freezing.model.msg.mq import DefinedTubes, ActivityUpdate
 
 
 def test_get_webhook(client):

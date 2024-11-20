@@ -1,5 +1,6 @@
-import os
 import logging
+import os
+
 from envparse import env
 
 envfile = os.environ.get("APP_SETTINGS", os.path.join(os.getcwd(), ".env"))

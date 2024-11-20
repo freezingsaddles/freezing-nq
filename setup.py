@@ -13,14 +13,14 @@ strava webhook events and enquing them for processing.
 """
 
 install_reqs = [
-    "envparse==0.2.0",
-    "falcon==2.0.0",
-    "greenstalk==1.0.1",
-    "gunicorn==20.0.4",
-    "python-mimeparse==1.6.0",
-    "six==1.14.0",
+    "envparse",
+    "falcon",
+    "greenstalk",
+    "gunicorn",
+    "python-mimeparse",
+    "six",
     "freezing-model",
-    "arrow==0.15.5",
+    "arrow",
 ]
 
 setup(
