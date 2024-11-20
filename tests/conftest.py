@@ -1,8 +1,8 @@
 import json
 
-from falcon import testing
 import pytest
 import pytest_mock
+from falcon import testing
 
 from freezing.nq.app import make_app
 from freezing.nq.config import config
