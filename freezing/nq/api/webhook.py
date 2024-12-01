@@ -54,7 +54,6 @@ class WebhookResource:
 
         See: https://developers.strava.com/docs/webhooks/
         """
-
         schema = SubscriptionUpdateSchema()
         result: SubscriptionUpdate = schema.load(req.media)
 
