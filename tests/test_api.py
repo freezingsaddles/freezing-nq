@@ -2,10 +2,10 @@ import copy
 import json
 
 import arrow
+import falcon
 import pytest
 from freezing.model.msg.mq import ActivityUpdate, DefinedTubes
 from freezing.model.msg.strava import AspectType
-import falcon
 
 from freezing.nq.config import config
 from freezing.nq.publish import ActivityPublisher
