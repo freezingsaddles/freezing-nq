@@ -25,18 +25,15 @@ class WebhookResource:
 
         See: https://developers.strava.com/docs/webhooks/
         """
-
         strava_request = {
             k: req.get_param(k)
             for k in ("hub.challenge", "hub.mode", "hub.verify_token")
         }
-
         schema = SubscriptionCallbackSchema()
         callback: SubscriptionCallback = schema.load(strava_request)
 
-        if config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token:
+        if config.STRAVA_VERIFY_TOKEN != callback.hub_verify_token:
             raise falcon.HTTPForbidden(description="hub.verify_token invalid")
-
         resp.status = falcon.HTTP_200
         resp.text = json.dumps({"hub.challenge": callback.hub_challenge})
 
