@@ -2,6 +2,15 @@
 
 This component is part of the [Freezing Saddles](http://freezingsaddles.com) project.  Its purpose is to receive [webhook activity events from Strava](http://strava.github.io/api/partner/v3/events/) and queue them up for processing.
 
+## Testing
+
+This has tests written with `pytest`
+
+```
+pip install . -e
+pytest
+```
+
 ## Deploying with Docker
 
 See [freezing-compose](https://github.com/freezingsaddles/freezing-compose) for guide to deploying this in production along

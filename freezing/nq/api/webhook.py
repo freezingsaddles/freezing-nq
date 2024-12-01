@@ -23,7 +23,7 @@ class WebhookResource:
         """
         The GET request is used by Strava, when the webhook is initially registered, to validate this endpoint.
 
-        See: http://strava.github.io/api/partner/v3/events/
+        See: https://developers.strava.com/docs/webhooks/
         """
 
         strava_request = {
@@ -32,11 +32,13 @@ class WebhookResource:
         }
 
         schema = SubscriptionCallbackSchema()
-        callback: SubscriptionCallback = schema.load(strava_request).data
-        assert config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token
+        callback: SubscriptionCallback = schema.load(strava_request)
+
+        if config.STRAVA_VERIFY_TOKEN == callback.hub_verify_token:
+            raise falcon.HTTPForbidden(description="hub.verify_token invalid")
 
         resp.status = falcon.HTTP_200
-        resp.body = json.dumps({"hub.challenge": callback.hub_challenge})
+        resp.text = json.dumps({"hub.challenge": callback.hub_challenge})
 
     def on_post(self, req: falcon.Request, resp: falcon.Response):
         """
@@ -53,7 +55,7 @@ class WebhookResource:
                 aspect_type = Attribute(six.text_type)
                 event_time = TimestampAttribute()
 
-        See: http://strava.github.io/api/partner/v3/events/
+        See: https://developers.strava.com/docs/webhooks/
         """
 
         schema = SubscriptionUpdateSchema()

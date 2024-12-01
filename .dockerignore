@@ -8,5 +8,6 @@ env*/*
 data/*
 *.db
 *.dump
+*.cfg
 .idea
 .ipynb*

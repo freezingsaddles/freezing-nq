@@ -5,6 +5,7 @@ import arrow
 import pytest
 from freezing.model.msg.mq import ActivityUpdate, DefinedTubes
 from freezing.model.msg.strava import AspectType
+import falcon
 
 from freezing.nq.config import config
 from freezing.nq.publish import ActivityPublisher
@@ -25,8 +26,8 @@ def test_get_webhook(client):
 def test_get_webhook_bad_token(client):
     d = {"hub.challenge": "asdf", "hub.mode": "mode", "hub.verify_token": "wrong"}
 
-    with pytest.raises(AssertionError):
-        result = client.simulate_get("/webhook", params=d)
+    result = client.simulate_get("/webhook", params=d)
+    assert result.status_code == 403
 
 
 def test_post_webhook(client, publisher: ActivityPublisher):
