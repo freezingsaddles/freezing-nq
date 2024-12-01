@@ -1,9 +1,6 @@
-import copy
 import json
 
 import arrow
-import falcon
-import pytest
 from freezing.model.msg.mq import ActivityUpdate, DefinedTubes
 from freezing.model.msg.strava import AspectType
 
@@ -44,6 +41,7 @@ def test_post_webhook(client, publisher: ActivityPublisher):
     result = client.simulate_post(
         "/webhook", body=json.dumps(d), headers={"content-type": "application/json"}
     )
+    assert result.status_code == 200
 
     message = ActivityUpdate()
     message.athlete_id = d["owner_id"]

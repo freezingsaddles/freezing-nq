@@ -1,8 +1,5 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import os.path
-import re
-import warnings
-
 from setuptools import setup
 
 version = "0.3.6"
