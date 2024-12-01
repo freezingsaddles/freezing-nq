@@ -23,14 +23,14 @@ class RequireJSON:
                 )
 
 
-def make_app(publisher: ActivityPublisher = None) -> falcon.API:
+def make_app(publisher: ActivityPublisher = None) -> falcon.App:
     """
     Builds the WSGI application we'll be serving.
     """
     if publisher is None:
         publisher = configured_publisher()
 
-    app = falcon.API(
+    app = falcon.App(
         middleware=[
             RequireJSON(),
         ]
