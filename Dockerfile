@@ -10,8 +10,9 @@ RUN apt-get update \
 
 RUN mkdir -p /build/wheels
 RUN pip3 install --upgrade pip setuptools wheel
-ADD requirements.txt /tmp/requirements.txt
-RUN pip3 wheel -r /tmp/requirements.txt --wheel-dir=/build/wheels
+ADD pyproject.toml /tmp
+WORKDIR /tmp
+RUN pip3 wheel --wheel-dir=/build/wheels .
 
 ADD . /app
 WORKDIR /app

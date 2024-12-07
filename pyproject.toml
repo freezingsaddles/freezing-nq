@@ -1,2 +1,71 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "freezing-nq"
+version = "0.4.0"
+description = "Freezing Saddles activity receive and enqueue worker"
+readme = "README.md"
+authors = [
+    {name = "Hans Lellelid", email = "$hans@xmpl.org"},
+    {name = "Richard Bullington-McGuire", email = "richard.bullington.mcguire@gmail.com"},
+]
+maintainers = [
+    {name = "Richard Bullington-McGuire", email="richard.bullington.mcguire@gmail.com"},
+]
+license = {text = "Apache License (2.0)"}
+dependencies = [
+    "arrow==0.15.5",
+    "envparse==0.2.0",
+    "falcon==4.0.2",
+    "freezing-model @ https://github.com/freezingsaddles/freezing-model/archive/0.9.2.tar.gz",
+    "greenstalk==1.0.1",
+    "gunicorn==22.0.0",
+    "python-mimeparse==1.6.0",
+    "six==1.16.0",
+]
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'License :: OSI Approved :: Apache Software License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3'
+]
+
+[project.optional-dependencies]
+dev = [
+    "black==24.3.0",
+    "fawltydeps==0.17.0",
+    "flake8==7.0.0",
+    "flake8-pyproject",
+    "flake8-bugbear",
+    "flake8-builtins",
+    "flake8-comprehensions",
+    "flake8-docstrings",
+    "flake8-eradicate",
+    "flake8-print",
+    "flake8-return",
+    "flake8-simplify",
+    "flake8-sorted-keys",
+    "flake8-todo",
+    "flake8-raise",
+    "isort==5.13.2",
+    "pytest==8.3.3",
+    "pytest-mock==1.6.3",
+]
+
 [tool.isort]
 profile = "black"
+
+[tool.flake8]
+# Thanks https://www.reddit.com/r/learnpython/comments/rr6y69/comment/hqeqt68/?utm_source=share&utm_medium=web2x&context=3
+ignore = [
+    "E203",
+    "E501",
+    "W503",
+    "W503",
+]
+max-line-length = 88
+max-complexity = 39
+extend-ignore = "E203"
+inline-quotes = "double"
