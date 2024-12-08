@@ -2,7 +2,7 @@ arrow==0.15.5
 envparse==0.2.0
 falcon==4.0.2
 freezing-model @ https://github.com/freezingsaddles/freezing-model/archive/0.10.3.tar.gz
-greenstalk==1.0.1
+greenstalk==2.0.2
 gunicorn==22.0.0
 python-mimeparse==1.6.0
 six==1.16.0
