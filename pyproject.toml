@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "freezing-nq"
-version = "0.4.2"
+version = "0.4.3"
 description = "Freezing Saddles activity receive and enqueue worker"
 readme = "README.md"
 authors = [
