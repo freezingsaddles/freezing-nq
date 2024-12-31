@@ -1,30 +1,25 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
 *$py.class
-
-# C extensions
+*.egg
+*.egg-info/
+*.py[cod]
 *.so
-
-# Distribution / packaging
 .Python
+.eggs/
+.installed.cfg
+.venv
 .venv/
-env/
+__pycache__/
 build/
-src/
 develop-eggs/
 dist/
 downloads/
 eggs/
-.eggs/
+env/
 lib/
 lib64/
 parts/
 sdist/
+src/
 var/
 venv/
 wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 
-version = "0.3.6"
+version = "0.4.1"
 
 long_description = """
 freezing-nq is the Freezing Saddles component for receiving
