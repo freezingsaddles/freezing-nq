@@ -10,8 +10,9 @@ RUN apt-get update \
 
 RUN mkdir -p /build/wheels
 RUN pip3 install --upgrade pip setuptools wheel
-ADD requirements.txt /tmp/requirements.txt
-RUN pip3 wheel -r /tmp/requirements.txt --wheel-dir=/build/wheels
+ADD pyproject.toml /tmp
+WORKDIR /tmp
+RUN pip3 wheel --wheel-dir=/build/wheels .
 
 ADD . /app
 WORKDIR /app
@@ -32,7 +33,9 @@ RUN apt-get update \
 
 RUN pip3 install --upgrade pip setuptools wheel
 COPY --from=buildstep /build/wheels /tmp/wheels
-RUN pip3 install /tmp/wheels/*
+# Thanks https://stackoverflow.com/a/74634740/424301 for the tip on
+# using --use-deprecated=legacy-resolver
+RUN pip3 install --use-deprecated=legacy-resolver  /tmp/wheels/*
 
 EXPOSE 8000
 ENTRYPOINT gunicorn --bind 0.0.0.0:8000 'freezing.nq.app:make_app()'

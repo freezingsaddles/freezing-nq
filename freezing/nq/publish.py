@@ -31,7 +31,7 @@ class ActivityPublisher:
 
         :param message: A message object that can be serialized with json.dumps()
         """
-        queue = greenstalk.Client(host=self.host, port=self.port, use=dest.value)
+        queue = greenstalk.Client((self.host, self.port), use=dest.value)
         try:
             queue.put(self.serialize_message(message))
         except Exception as ex:

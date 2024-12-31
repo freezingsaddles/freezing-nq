@@ -61,20 +61,3 @@ def test_post_webhook(client, publisher: ActivityPublisher):
     publisher.publish_message.assert_called_with(
         called_with, dest=DefinedTubes.activity_update
     )
-
-
-# def test_post_webhook_noop(client, publisher:ActivityPublisher):
-#
-#     d = dict(
-#         subscription_id=111,
-#         owner_id=222,
-#         object_type='activity',
-#         object_id=999,
-#         aspect_type='update',
-#         updates={},
-#         event_time=1358919359,
-#     )
-#
-#     client.simulate_post('/webhook', body=json.dumps(d), headers={'content-type': 'application/json'})
-#
-#     publisher.publish_message.assert_not_called()
