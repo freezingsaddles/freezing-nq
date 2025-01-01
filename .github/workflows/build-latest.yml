@@ -34,5 +34,5 @@ jobs:
         script: |
           set -euo pipefail
           cd /opt/compose
-          docker-compose pull freezing-nq
-          docker-compose up -d freezing-nq
+          docker compose pull freezing-nq
+          docker compose up -d freezing-nq
