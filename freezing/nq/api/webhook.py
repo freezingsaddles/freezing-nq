@@ -39,17 +39,17 @@ class WebhookResource:
 
     def on_post(self, req: falcon.Request, resp: falcon.Response):
         """
-        Receives a POSt request from Strava to indicate that an activity has been created or updated.
+        Receives a POST request (webhook) from Strava to indicate that an activity has been created or updated.
 
-        We use stravalib to deserialize this (although the structure is pretty trivial).  This will the be published to
-        beanstalkd (etc.) for picking up by main processing component.
+        We use stravalib to deserialize this (although the structure is pretty trivial).
+        This will the be published to beanstalkd (etc.) for picking up by main processing component.
 
         Message payload:
-                subscription_id = Attribute(six.text_type)
-                owner_id = Attribute(six.text_type)
-                object_id = Attribute(six.text_type)
-                object_type = Attribute(six.text_type)
-                aspect_type = Attribute(six.text_type)
+                subscription_id = Attribute(str)
+                owner_id = Attribute(str)
+                object_id = Attribute(str)
+                object_type = Attribute(str)
+                aspect_type = Attribute(str)
                 event_time = TimestampAttribute()
 
         See: https://developers.strava.com/docs/webhooks/
