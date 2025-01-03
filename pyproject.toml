@@ -23,7 +23,7 @@ dependencies = [
     "greenstalk==2.0.2",
     "gunicorn==22.0.0",
     "python-mimeparse==2.0.0",
-    "six==1.16.0",
+    "six==1.17.0",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
