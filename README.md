@@ -25,7 +25,7 @@ It is designed to run as a container and should be configured with environment v
 
 This software is a community-driven effort, and as such the contributions are owned by the individual contributors:
 
-Copyright 2018 Hans Lillelid <br>
+Copyright 2018 Hans Lellelid <br>
 Copyright 2020 Richard Bullington-McGuire <br>
 
 This software is licensed under the [Apache 2.0 license](LICENSE).
