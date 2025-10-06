@@ -20,7 +20,7 @@ dependencies = [
     "envparse==0.2.0",
     "falcon==4.0.2",
     "freezing-model @ https://github.com/freezingsaddles/freezing-model/archive/0.11.2.tar.gz",
-    "greenstalk==2.0.2",
+    "greenstalk==2.1.1",
     "gunicorn==23.0.0",
     "python-mimeparse==2.0.0",
 ]
