@@ -4,12 +4,20 @@ name: Build Tag
 on:
   push:
     tags:
-      - '*' 
+      - '*'
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@1.5.6
+    permissions:
+      contents: read
+    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@fc58c1c4339013a6dc952fbc28e0e573b8a37698 # harden-workflows, pending 1.7.0
     with:
       tag: ${{ github.ref_name }}
       repo: freezing-nq
-    secrets: inherit
+      push: true
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

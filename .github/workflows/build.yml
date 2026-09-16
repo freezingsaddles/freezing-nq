@@ -3,10 +3,15 @@ name: Build
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@1.5.6
+    permissions:
+      contents: read
+    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@fc58c1c4339013a6dc952fbc28e0e573b8a37698 # harden-workflows, pending 1.7.0
     with:
       tag: latest-actions-build
       repo: freezing-nq
-    secrets: inherit
+      push: false
