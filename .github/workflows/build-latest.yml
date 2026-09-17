@@ -47,3 +47,4 @@ jobs:
           cd /opt/compose
           docker compose pull freezing-nq
           docker compose up -d freezing-nq
+          docker image prune -f

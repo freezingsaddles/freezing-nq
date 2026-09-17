@@ -10,14 +10,10 @@ RUN apt-get update \
 
 RUN mkdir -p /build/wheels
 RUN pip3 install --upgrade pip setuptools wheel
-ADD pyproject.toml /tmp
-WORKDIR /tmp
-RUN pip3 wheel --wheel-dir=/build/wheels .
 
 ADD . /app
 WORKDIR /app
-
-RUN python3 setup.py bdist_wheel -d /build/wheels
+RUN pip3 wheel --wheel-dir=/build/wheels .
 
 # DEPLOY
 # =====
@@ -33,9 +29,10 @@ RUN apt-get update \
 
 RUN pip3 install --upgrade pip setuptools wheel
 COPY --from=buildstep /build/wheels /tmp/wheels
-# Thanks https://stackoverflow.com/a/74634740/424301 for the tip on
-# using --use-deprecated=legacy-resolver
-RUN pip3 install --use-deprecated=legacy-resolver  /tmp/wheels/*
+# The wheel directory already holds the fully resolved dependency closure from
+# "pip3 wheel" above; --no-deps stops pip from re-resolving the direct-URL
+# freezing-model requirement, which it cannot match against a local wheel.
+RUN pip3 install --no-deps /tmp/wheels/*
 
 EXPOSE 8000
 ENTRYPOINT gunicorn --bind 0.0.0.0:8000 'freezing.nq.app:make_app()'
