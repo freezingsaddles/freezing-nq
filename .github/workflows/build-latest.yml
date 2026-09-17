@@ -6,17 +6,28 @@ on:
     branches:
       - 'main'
 
+permissions:
+  contents: read
+
 jobs:
 
   build:
-    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@1.5.6
+    permissions:
+      contents: read
+    uses: freezingsaddles/freezing-web/.github/workflows/build-docker.yml@fc57041b2a1f991b8d8dcf7ed4a7bd03a56bc4e3 # 1.7.0
     concurrency: build-deploy-and-test
     with:
       tag: latest
       repo: freezing-nq
-    secrets: inherit
+      push: true
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   deploy:
+    permissions:
+      contents: read
+    environment: production
     concurrency: build-deploy-and-test
     needs: build
     runs-on: ubuntu-latest
@@ -24,15 +35,16 @@ jobs:
     steps:
 
     - name: install
-      uses: appleboy/ssh-action@v1.1.0
+      uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
+        host: ${{ vars.HOST }}
+        username: ${{ vars.USERNAME }}
         key: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
+        port: ${{ vars.PORT }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           set -euo pipefail
           cd /opt/compose
           docker compose pull freezing-nq
           docker compose up -d freezing-nq
+          docker image prune -f
