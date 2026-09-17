@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: black Lint
-        uses: psf/black@e026c93888f91a47a9c9f4e029f3eb07d96375e6 # 24.1.1
+        uses: psf/black@87928e6d6761a4a6d22250e1fee5601b3998086e # 26.5.1
       - name: isort Lint
         uses: isort/isort-action@24d8a7a51d33ca7f36c3f23598dafa33f7071326 # v1
       - name: flake8 Lint
