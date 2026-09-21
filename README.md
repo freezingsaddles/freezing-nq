@@ -1,3 +1,5 @@
+> **Moved to [freezingsaddles/freezing](https://github.com/freezingsaddles/freezing).** This code is now [`apps/nq`](https://github.com/freezingsaddles/freezing/tree/main/apps/nq) there. Issues here are left as a record.
+
 # Freezing Saddles Enqueue
 
 This component is part of the [Freezing Saddles](http://freezingsaddles.com) project.  Its purpose is to receive [webhook activity events from Strava](http://strava.github.io/api/partner/v3/events/) and queue them up for processing.
